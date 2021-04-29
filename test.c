@@ -1,52 +1,14 @@
-# timerlib
-
-## 描述
-一个简单的C语言定时器
-## API:
-``` c
-int  TimerInit();
-
-/*
-*
-*Timer Destory, free any data allocated for the library.
-*/
-void TimerDestroy();
-
-/*
-*add a Timer
-*
-*/
-int  TimerAdd(long sec, 
-            long usec, 
-            void (*hndlr)(void*), 
-            void* hndlr_arg, 
-            int *id);
-
-/*
-*Remove from the queue the timer of identifier "id"
-*/
-void TimerRemove(int id, void (*free_arg)(void*));
-
-/*
-*Prints the content of the timer queue (to debug)
-*/
-void TimePrint();
-```
-
-## 简单例子
-```c
-/* 
- *test code 
- */
+/* test code */
+#include "timerlib.h"
+#include <pthread.h>
+#include <signal.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdint.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <pthread.h>
-#include <signal.h>
-#include "timerlib.h"
+
 static int count = 0;
 
 void timer_handler(void* arg)
@@ -89,11 +51,3 @@ int main()
 
     return 0;
 }
-
-//运行结果
-[zhangwj@host timerlib]$ ./TimerTest 
-This is TimerTest 1
-This is TimerTest 2
-This is TimerTest 3
-[zhangwj@host timerlib]$    
-```
